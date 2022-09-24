@@ -202,17 +202,18 @@ type TransitEncryptOptions struct {
 }
 
 type TransitSignOptions struct {
-	Plaintext            string `json:"plaintext"`
-	Context              string `json:"context,omitempty"`
+	Plaintext            string `json:"input"`
+	/*Context              string `json:"context,omitempty"`
 	KeyVersion           *int   `json:"key_version,omitempty"`
 	Nonce                string `json:"nonce,omitempty"`
 	Type                 string `json:"type,omitempty"`
 	ConvergentEncryption string `json:"convergent_encryption,omitempty"`
+        */
 }
 
 type TransitSignResponse struct {
 	Data struct {
-		Ciphertext string `json:"ciphertext"`
+		Signature string `json:"signature"`
 	} `json:"data"`
 }
 
@@ -240,6 +241,7 @@ func (t *Transit) Sign(key string, opts *TransitSignOptions) (*TransitSignRespon
 
 	opts.Plaintext = base64.StdEncoding.EncodeToString([]byte(opts.Plaintext))
 
+	//println(opts.Plaintext)
 	err := t.client.Write([]string{"v1", t.MountPoint, "sign", url.PathEscape(key)}, opts, res, nil)
 	if err != nil {
 		return nil, err
