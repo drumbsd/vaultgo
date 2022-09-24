@@ -201,6 +201,21 @@ type TransitEncryptOptions struct {
 	ConvergentEncryption string `json:"convergent_encryption,omitempty"`
 }
 
+type TransitSignOptions struct {
+	Plaintext            string `json:"plaintext"`
+	Context              string `json:"context,omitempty"`
+	KeyVersion           *int   `json:"key_version,omitempty"`
+	Nonce                string `json:"nonce,omitempty"`
+	Type                 string `json:"type,omitempty"`
+	ConvergentEncryption string `json:"convergent_encryption,omitempty"`
+}
+
+type TransitSignResponse struct {
+	Data struct {
+		Ciphertext string `json:"ciphertext"`
+	} `json:"data"`
+}
+
 type TransitEncryptResponse struct {
 	Data struct {
 		Ciphertext string `json:"ciphertext"`
@@ -213,6 +228,19 @@ func (t *Transit) Encrypt(key string, opts *TransitEncryptOptions) (*TransitEncr
 	opts.Plaintext = base64.StdEncoding.EncodeToString([]byte(opts.Plaintext))
 
 	err := t.client.Write([]string{"v1", t.MountPoint, "encrypt", url.PathEscape(key)}, opts, res, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (t *Transit) Sign(key string, opts *TransitSignOptions) (*TransitSignResponse, error) {
+	res := &TransitSignResponse{}
+
+	opts.Plaintext = base64.StdEncoding.EncodeToString([]byte(opts.Plaintext))
+
+	err := t.client.Write([]string{"v1", t.MountPoint, "sign", url.PathEscape(key)}, opts, res, nil)
 	if err != nil {
 		return nil, err
 	}

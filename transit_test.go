@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mittwald/vaultgo/test/testdata"
+	"github.com/drumbsd/vaultgo/test/testdata"
 	"github.com/stretchr/testify/require"
 
 	"github.com/hashicorp/vault/api"

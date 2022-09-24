@@ -9,5 +9,3 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/testcontainers/testcontainers-go v0.11.1
 )
-
-replace github.com/mittwald/vaultgo => github.com/drumbsd/vaultgo master
