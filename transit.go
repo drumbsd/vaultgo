@@ -230,7 +230,7 @@ type TransitSignResponse struct {
 
 type TransitVerifyResponse struct {
 	Data struct {
-		Valid string `json:"valid"`
+		Valid bool `json:"valid"`
 	} `json:"data"`
 }
 
